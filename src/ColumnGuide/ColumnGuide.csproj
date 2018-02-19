@@ -4,8 +4,9 @@
     <TargetFramework>net45</TargetFramework>
     <Authors>Paul Harrington</Authors>
     <Company>Paul Harrington</Company>
-    <Copyright>Copyright © 2017 Paul Harrington</Copyright>
+    <Copyright>Copyright © 2018 Paul Harrington</Copyright>
     <Description>Editor Guidelines Extension</Description>
+    <Product>Editor Guidelines</Product>
   </PropertyGroup>
 
   <ItemGroup>

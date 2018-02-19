@@ -71,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ColumnGuidePackage\ColumnGuidePackage.csproj">
-      <Project>{B2BA96C9-1020-4D3E-9E4F-9D2525FD4DC3}</Project>
+      <Project>{44A32863-8471-40D4-941F-215C531B6418}</Project>
       <Name>ColumnGuidePackage</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3bPkgdefProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
