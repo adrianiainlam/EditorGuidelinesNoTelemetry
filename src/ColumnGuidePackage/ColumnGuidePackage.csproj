@@ -170,12 +170,6 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ColumnGuide\ColumnGuide.csproj">
-      <Project>{0C5B092D-506C-4F92-9902-205874908ACC}</Project>
-      <Name>ColumnGuide</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
@@ -191,6 +185,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ColumnGuide\ColumnGuide.csproj">
+      <Project>{3682b779-8661-4a61-b181-68a99587bf28}</Project>
+      <Name>ColumnGuide</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
