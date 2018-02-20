@@ -3,6 +3,7 @@ using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using System;
 using System.ComponentModel.Composition;
+using System.Reflection;
 
 namespace ColumnGuide
 {
@@ -38,7 +39,7 @@ namespace ColumnGuide
             client.Context.User.Id = Anonymize(Environment.UserDomainName + "\\" + Environment.UserName);
             client.Context.Session.Id = Guid.NewGuid().ToString();
             client.Context.Device.OperatingSystem = Environment.OSVersion.ToString();
-            client.Context.Component.Version = typeof(Telemetry).Assembly.GetName().Version.ToString();
+            client.Context.Component.Version = typeof(Telemetry).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 
             return client;
         }
