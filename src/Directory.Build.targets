@@ -3,4 +3,48 @@
 
   <Import Condition="'$(IncludeVSSDK)'=='true' And '$(VSToolsPath)' != ''" Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" />
 
+  <!--
+        Add Private=true to any assemblies from Nuget package references with Private=true
+        This encourages CreateVsixSourceItemFromReferences (in the VSSDK) to include those
+        assemblies in the VSIX.
+  -->
+  <Target Name="MakePrivateNugetReferences" AfterTargets="ResolveSDKReferences">
+
+    <!-- 
+          We introduce the concept of a "private" (NuGet) package reference. These are
+          identified by adding metadata with Private = true to a PacakgeReference item.
+          
+          Then, we want to find all the "Reference" items that come from private NuGet packages.
+          For each one, we want to set Private=true, because CreateVsixSourceItemFromReferences
+          checks for that (or CopyLocal = true) to decide whether to include the reference in
+          the VSIX.
+          
+          TODO: There's probably a better way to do this. Maybe by authoring an inline task?
+    -->
+    <ItemGroup>
+      <!-- Find PackageReference with Private = true -->
+      <PrivatePackageReference Include="@(PackageReference)" Condition="'%(PackageReference.Private)' == 'true'" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- Extract the NuGetPackageId from the Reference group, but keep the original identity -->
+      <NuGetPackageIdReference Include="%(Reference.NuGetPackageId)" Condition="'%(Reference.NuGetPackageId)' != ''">
+        <OriginalIdentity>%(Reference.Identity)</OriginalIdentity>
+      </NuGetPackageIdReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- Intersect PrivatePackageReference and NuGetPackageIdReference (matching on the nuget package Id), extracting the OriginalIdentity -->
+      <ReferenceFromPrivatePackage Include="@(NuGetPackageIdReference->'%(OriginalIdentity)')" Condition="'%(Identity)' != '' AND '@(PrivatePackageReference)' == '@(NuGetPackageIdReference)'" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- Add "Private = true" to Reference items also in ReferenceFromPrivatePackage -->
+      <Reference Update="@(Reference)" Condition="'%(Identity)' != '' AND '@(ReferenceFromPrivatePackage)' == '@(Reference)'">
+        <Private>true</Private>
+      </Reference>
+    </ItemGroup>
+
+  </Target>
+ 
 </Project>

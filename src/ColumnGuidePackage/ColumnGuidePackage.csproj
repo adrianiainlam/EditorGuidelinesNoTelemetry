@@ -13,7 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.1.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.1.0">
+      <Private>True</Private>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.11.0" Version="11.0.61031" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="15.0.26201" />
   </ItemGroup>
