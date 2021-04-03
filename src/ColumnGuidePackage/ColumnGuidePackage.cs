@@ -21,8 +21,8 @@ namespace Microsoft.ColumnGuidePackage
     /// The minimum requirement for a class to be considered a valid package for Visual Studio
     /// is to implement the IVsPackage interface and register itself with the shell.
     /// This package uses the helper classes defined inside the Managed Package Framework (MPF)
-    /// to do it: it derives from the Package class that provides the implementation of the 
-    /// IVsPackage interface and uses the registration attributes defined in the framework to 
+    /// to do it: it derives from the Package class that provides the implementation of the
+    /// IVsPackage interface and uses the registration attributes defined in the framework to
     /// register itself and its components with the shell.
     /// </summary>
     // This attribute tells the PkgDef creation utility (CreatePkgDef.exe) that this class is
@@ -39,9 +39,9 @@ namespace Microsoft.ColumnGuidePackage
 
         /// <summary>
         /// Default constructor of the package.
-        /// Inside this method you can place any initialization code that does not require 
-        /// any Visual Studio service because at this point the package object is created but 
-        /// not sited yet inside Visual Studio environment. The place to do all the other 
+        /// Inside this method you can place any initialization code that does not require
+        /// any Visual Studio service because at this point the package object is created but
+        /// not sited yet inside Visual Studio environment. The place to do all the other
         /// initialization is the Initialize method.
         /// </summary>
         public ColumnGuidePackage()
@@ -61,8 +61,6 @@ namespace Microsoft.ColumnGuidePackage
         {
             _dispatcher.VerifyAccess();
             base.Initialize();
-
-            Telemetry.Client.TrackEvent(nameof(ColumnGuidePackage) + "." + nameof(Initialize), new Dictionary<string, string>() { ["VSVersion"] = GetShellVersion() });
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
 
@@ -136,7 +134,6 @@ namespace Microsoft.ColumnGuidePackage
                     throw new ArgumentException(Resources.InvalidColumn);
                 }
 
-                Telemetry.Client.TrackEvent("Command parameter used");
                 return column;
             }
 
@@ -155,7 +152,6 @@ namespace Microsoft.ColumnGuidePackage
             var column = GetApplicableColumn(e);
             if (column >= 0)
             {
-                Telemetry.Client.TrackEvent(nameof(AddColumnGuideExecuted), new Dictionary<string, string>() { ["Column"] = column.ToString(InvariantCulture) });
                 TextEditorGuidesSettingsRendezvous.Instance.AddGuideline(column);
             }
         }
@@ -166,14 +162,12 @@ namespace Microsoft.ColumnGuidePackage
             var column = GetApplicableColumn(e);
             if (column >= 0)
             {
-                Telemetry.Client.TrackEvent(nameof(RemoveColumnGuideExecuted), new Dictionary<string, string>() { ["Column"] = column.ToString(InvariantCulture) });
                 TextEditorGuidesSettingsRendezvous.Instance.RemoveGuideline(column);
             }
         }
 
         private void RemoveAllGuidelinesExecuted(object sender, EventArgs e)
         {
-            Telemetry.Client.TrackEvent(nameof(RemoveAllGuidelinesExecuted));
             TextEditorGuidesSettingsRendezvous.Instance.RemoveAllGuidelines();
         }
 

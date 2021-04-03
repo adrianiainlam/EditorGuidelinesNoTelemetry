@@ -1,6 +1,9 @@
 # Editor Guidelines
 All notable changes will be documented in this file.
 
+## Fork by Adrian Lam (April 3rd 2021)
+- Removed telemetry
+
 ## Version [2.2.5] (March 26th 2020)
 ###
 - Last version to support VS 2012 and VS 2013

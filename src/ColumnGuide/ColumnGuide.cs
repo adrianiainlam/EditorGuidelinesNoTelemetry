@@ -45,7 +45,6 @@ namespace ColumnGuide
         private double _columnWidth;
 
         private INotifyPropertyChanged _settingsChanged;
-        private readonly ITelemetry _telemetry;
 
         /// <summary>
         /// The brush supplied by Fonts and Colors
@@ -68,10 +67,9 @@ namespace ColumnGuide
         /// <param name="guidelineBrush">The guideline brush.</param>
         /// <param name="codingConventionsManager">The coding conventions manager for handling .editorconfig settings.</param>
         /// <param name="telemetry">Telemetry interface.</param>
-        public ColumnGuide(IWpfTextView view, ITextEditorGuidesSettings settings, GuidelineBrush guidelineBrush, ICodingConventionsManager codingConventionsManager, ITelemetry telemetry)
+        public ColumnGuide(IWpfTextView view, ITextEditorGuidesSettings settings, GuidelineBrush guidelineBrush, ICodingConventionsManager codingConventionsManager)
         {
             _view = view;
-            _telemetry = telemetry;
             _guidelineBrush = guidelineBrush;
             _guidelineBrush.BrushChanged += GuidelineBrushChanged;
             _strokeParameters = StrokeParameters.FromBrush(_guidelineBrush.Brush);
@@ -351,7 +349,6 @@ namespace ColumnGuide
                 }
 
                 ColumnGuideAdornmentFactory.AddGuidelinesToTelemetry(eventTelemetry, guidelines);
-                _telemetry.Client.TrackEvent(eventTelemetry);
                 s_sentEditorConfigTelemetry = true;
             }
 

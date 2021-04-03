@@ -26,7 +26,7 @@ namespace ColumnGuide
     internal sealed class ColumnGuideAdornmentFactory : IWpfTextViewCreationListener, IPartImportsSatisfiedNotification
     {
         /// <summary>
-        /// Defines the adornment layer for the adornment. This layer is ordered 
+        /// Defines the adornment layer for the adornment. This layer is ordered
         /// below the text in the Z-order
         /// </summary>
         [Export(typeof(AdornmentLayerDefinition))]
@@ -45,20 +45,13 @@ namespace ColumnGuide
             // respond to dynamic changes.
 #pragma warning disable IDE0067 // Dispose objects before losing scope
 #pragma warning disable CA2000 // Dispose objects before losing scope
-            var _ = new ColumnGuide(textView, TextEditorGuidesSettings, GuidelineBrush, CodingConventionsManager, Telemetry);
+            var _ = new ColumnGuide(textView, TextEditorGuidesSettings, GuidelineBrush, CodingConventionsManager);
 #pragma warning restore CA2000 // Dispose objects before losing scope
 #pragma warning restore IDE0067 // Dispose objects before losing scope
         }
 
         public void OnImportsSatisfied()
         {
-            TrackSettings(global::ColumnGuide.Telemetry.CreateInitializeTelemetryItem(nameof(ColumnGuideAdornmentFactory) + " initialized"));
-
-            GuidelineBrush.BrushChanged += (sender, newBrush) =>
-            {
-                Telemetry.Client.TrackEvent("GuidelineColorChanged", new Dictionary<string, string> { ["Color"] = newBrush.ToString(InvariantCulture) });
-            };
-
             if (TextEditorGuidesSettings is INotifyPropertyChanged settingsChanged)
             {
                 settingsChanged.PropertyChanged += OnSettingsChanged;
@@ -67,13 +60,11 @@ namespace ColumnGuide
             // Show a warning dialog if running in an old version of VS
             if (IsRunningInOldVsVersion() && !TextEditorGuidesSettings.DontShowVsVersionWarning)
             {
-                Telemetry.Client.TrackEvent("ShowDeprecationWarning");
                 ThreadHelper.Generic.BeginInvoke(DispatcherPriority.Background, () =>
                 {
                     var dlg = new OldVsVersionDialog();
                     if (dlg.ShowModal() == true && dlg.DontShowAgain)
                     {
-                        Telemetry.Client.TrackEvent("DontShowDeprecationWarningAgain");
                         TextEditorGuidesSettings.DontShowVsVersionWarning = true;
                     }
                 });
@@ -109,7 +100,6 @@ namespace ColumnGuide
         private void TrackSettings(EventTelemetry telemetry)
         {
             AddBrushColorAndGuidelinePositionsToTelemetry(telemetry, GuidelineBrush.Brush, TextEditorGuidesSettings.GuideLinePositionsInChars);
-            Telemetry.Client.TrackEvent(telemetry);
         }
 
         internal static void AddBrushColorAndGuidelinePositionsToTelemetry(EventTelemetry eventTelemetry, Brush brush, IEnumerable<int> positions)
@@ -152,9 +142,6 @@ namespace ColumnGuide
 
         [Import]
         private ITextEditorGuidesSettings TextEditorGuidesSettings { get; set; }
-
-        [Import]
-        private ITelemetry Telemetry { get; set; }
 
         [Import]
         private GuidelineBrush GuidelineBrush { get; set; }
