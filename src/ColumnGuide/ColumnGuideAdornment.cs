@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using static ColumnGuide.Parser;
+using static EditorGuidelines.Parser;
 
-namespace ColumnGuide
+namespace EditorGuidelines
 {
     /// <summary>
     /// Adornment class that draws vertical guide lines beneath the text
     /// </summary>
-    internal class ColumnGuide : IDisposable
+    internal class ColumnGuideAdornment : IDisposable
     {
         /// <summary>
         /// Limits the number of telemetry events for .editorconfig settings.
@@ -67,7 +67,7 @@ namespace ColumnGuide
         /// <param name="guidelineBrush">The guideline brush.</param>
         /// <param name="codingConventionsManager">The coding conventions manager for handling .editorconfig settings.</param>
         /// <param name="telemetry">Telemetry interface.</param>
-        public ColumnGuide(IWpfTextView view, ITextEditorGuidesSettings settings, GuidelineBrush guidelineBrush, ICodingConventionsManager codingConventionsManager)
+        public ColumnGuideAdornment(IWpfTextView view, ITextEditorGuidesSettings settings, GuidelineBrush guidelineBrush, ICodingConventionsManager codingConventionsManager)
         {
             _view = view;
             _guidelineBrush = guidelineBrush;
@@ -256,7 +256,7 @@ namespace ColumnGuide
         private void AddGuidelinesToAdornmentLayer()
         {
             // Get a reference to our adornment layer.
-            var adornmentLayer = _view.GetAdornmentLayer("ColumnGuide");
+            var adornmentLayer = _view.GetAdornmentLayer(ColumnGuideAdornmentFactory.AdornmentLayerName);
             if (adornmentLayer == null)
             {
                 return;
@@ -327,7 +327,9 @@ namespace ColumnGuide
                 _isUsingCodingConvention = true;
 
                 // TODO: await JoinableTaskFactory.SwitchToMainThreadAsync();
-                _view.VisualElement.Dispatcher.BeginInvoke(new Action<IEnumerable<Guideline>>(GuidelinesChanged), guidelines);
+#pragma warning disable VSTHRD001 // Avoid legacy thread switching APIs
+                _ = _view.VisualElement.Dispatcher.BeginInvoke(new Action<IEnumerable<Guideline>>(GuidelinesChanged), guidelines);
+#pragma warning restore VSTHRD001 // Avoid legacy thread switching APIs
             }
 
             if (_isUsingCodingConvention && !s_sentEditorConfigTelemetry)
