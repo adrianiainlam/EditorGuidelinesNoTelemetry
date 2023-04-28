@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) Paul Harrington.  All Rights Reserved.  Licensed under the MIT License.  See LICENSE in the project root for license information. -->
+<!-- Copyright (c) Paul Harrington with modifications by Adrian Lam.  All Rights Reserved.  Licensed under the MIT License.  See LICENSE in the project root for license information. -->
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="EditorGuidelines.f7dfa085-35e4-4844-8842-48298d5eaee0" Version="|%CurrentProject%;GetPackageVersion|" Language="en-US" Publisher="Paul Harrington" />
-    <DisplayName>Editor Guidelines</DisplayName>
+    <Identity Id="EditorGuidelines_No_Telemetry" Version="|%CurrentProject%;GetPackageVersion|" Language="en-US" Publisher="Paul Harrington with mods by Adrian Lam" />
+    <DisplayName>Editor Guidelines No Telemetry</DisplayName>
     <Description xml:space="preserve">Adds vertical column guides to the Visual Studio text editor.</Description>
-    <MoreInfo>https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines</MoreInfo>
+    <MoreInfo>https://github.com/adrianiainlam/EditorGuidelinesNoTelemetry</MoreInfo>
     <License>LICENSE</License>
-    <GettingStartedGuide>https://github.com/pharring/EditorGuidelines#getting-started</GettingStartedGuide>
-    <ReleaseNotes>https://github.com/pharring/EditorGuidelines/blob/master/CHANGELOG.md</ReleaseNotes>
+    <GettingStartedGuide>https://github.com/adrianiainlam/EditorGuidelinesNoTelemetry#getting-started</GettingStartedGuide>
+    <ReleaseNotes>https://github.com/adrianiainlam/EditorGuidelinesNoTelemetry/blob/master/CHANGELOG.md</ReleaseNotes>
     <Icon>EditorGuidelines_128px.png</Icon>
     <Tags>Editor;Editing;Guidelines;Column</Tags>
   </Metadata>
